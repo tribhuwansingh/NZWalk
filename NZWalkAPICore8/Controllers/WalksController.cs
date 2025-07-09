@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -27,6 +28,7 @@ namespace NZWalkAPICore8.Controllers
         }
         [HttpPost]
         [ValidateModel]
+        [Authorize]
         public async Task<IActionResult> AddWalk([FromBody] AddWalkDto addWalkDto)
         {
             //if (ModelState.IsValid)
