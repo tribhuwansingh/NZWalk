@@ -57,7 +57,7 @@ namespace NZWalkAPICore8.Controllers
         }
         [HttpGet]
         [Route("{Id:Guid}")]
-        [Authorize(Roles = "Reader")]
+        [Authorize(Roles = "Reader Writer")]
         public async Task<IActionResult> GetRegionById([FromRoute]Guid Id)
         {
             //var result = await _dbContext.Regions.AsNoTracking().Where(p => p.Id == Id).FirstOrDefaultAsync();

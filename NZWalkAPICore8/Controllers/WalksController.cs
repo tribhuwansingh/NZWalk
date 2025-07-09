@@ -28,7 +28,7 @@ namespace NZWalkAPICore8.Controllers
         }
         [HttpPost]
         [ValidateModel]
-        [Authorize]
+        [Authorize(Roles ="Writer")]
         public async Task<IActionResult> AddWalk([FromBody] AddWalkDto addWalkDto)
         {
             //if (ModelState.IsValid)
