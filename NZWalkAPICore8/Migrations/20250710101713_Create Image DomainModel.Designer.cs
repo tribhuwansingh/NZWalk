@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NZWalkAPICore8.Data;
 
@@ -11,9 +12,11 @@ using NZWalkAPICore8.Data;
 namespace NZWalkAPICore8.Migrations
 {
     [DbContext(typeof(NZWalkDBContext))]
-    partial class NZWalkDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250710101713_Create Image DomainModel")]
+    partial class CreateImageDomainModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
