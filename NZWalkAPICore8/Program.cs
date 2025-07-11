@@ -8,45 +8,20 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddHttpContextAccessor();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//builder.Services.AddSwaggerGen(options =>
-//{
-//    options.SwaggerDoc("V1",new OpenApiInfo() { Title="NZ Walk API", Version="v1"});
-//    options.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
-//    {
-//        Name = "Authorization",
-//        In = ParameterLocation.Header,
-//        Scheme = JwtBearerDefaults.AuthenticationScheme,
-//        Type = SecuritySchemeType.ApiKey
 
-//    });
-//    options.AddSecurityRequirement(new OpenApiSecurityRequirement
-//    {
-//        {
-//        new OpenApiSecurityScheme
-//        {
-//            Reference = new OpenApiReference
-//            {
-//                Type = ReferenceType.SecurityScheme,
-//                Id = JwtBearerDefaults.AuthenticationScheme
-//            },
-//            Scheme = "Oauth2",
-//            Name= JwtBearerDefaults.AuthenticationScheme,
-//            In = ParameterLocation.Header,
-//        },
-//        new List<string>()
-//        }
-//    });
-//});
 
 builder.Services.AddDbContext<NZWalkDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("NZWalkConnection"))
@@ -58,9 +33,12 @@ builder.Services.AddDbContext<NZWalkAuthDBContext>(options =>
 
 
 //Inject the Repositry
+
 builder.Services.AddScoped<IRegionRepositry, SQLRegionRepositary>();
 builder.Services.AddScoped<IWalkRepositry, SQLWalkRepositry>();
 builder.Services.AddScoped<ITokenRepositary, TokenRepositary>();
+builder.Services.AddScoped<IImageUploadRepositry, ImageUploadRepositry>();
+
 
 //Inject the Mapping
 builder.Services.AddAutoMapper(typeof(AutoMappingProfile));
@@ -107,6 +85,12 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
+//Used For Static File Handeler
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Images")),
+    RequestPath = "/Images"
+});
 app.MapControllers();
 
 app.Run();
