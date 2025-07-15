@@ -13,6 +13,8 @@ namespace NZWalkAPICore8.Data
         public DbSet<Region> Regions { get; set; }
         public DbSet<Difficulty> Difficulty { get; set; }
         public DbSet<Image> Images { get; set; }
+        public DbSet<Product> Products { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
